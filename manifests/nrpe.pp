@@ -1,11 +1,11 @@
 class nagios::nrpe {
  
-	package { [ 'nagios-nrpe-server', 'nagios-plugins' ]:
+	package { [ 'nrpe', 'nagios-plugins-all', 'nsca-client' ]:
   	ensure      => present,
   }
-  service { 'nagios-nrpe-server':
+  service { 'nrpe':
   	ensure      => running,
     enable      => true,
-    require     => Package[ 'nagios-nrpe-server', 'nagios-plugins' ] ],
+    require     => Package[ 'nrpe', 'nagios-plugins-all' ],
   }
 }
