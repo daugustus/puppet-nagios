@@ -23,7 +23,7 @@ class nagios::params {
     'RedHat', 'Fedora', 'CentOS', 'Scientific': {
       $nrpe_package       = [ 'nrpe', 'nagios-plugins' ]
       $nrpe_user          = 'nrpe'
-      $nrpe_group         = 'nrpe'
+      $nrpe_group         = 'apache'
       $nrpe_pid_file      = hiera('nagios::params::nrpe_pid_file','/var/run/nrpe.pid')
       $nrpe_cfg_dir       = hiera('nagios::params::nrpe_cfg_dir','/etc/nrpe.d')
       $plugin_dir         = hiera('nagios::params::plugin_dir',"/usr/${libdir}/nagios/plugins")
