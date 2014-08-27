@@ -9,7 +9,7 @@ define nagios::client::nrpe_file (
     $sudo       = false,
     $sudo_user  = undef,
     $args       = false,
-    $ensure     = undef
+    $ensure     = undef,
 ) {
 
     file { "${nagios::params::nrpe_cfg_dir}/nrpe-${title}.cfg":
@@ -20,6 +20,4 @@ define nagios::client::nrpe_file (
         notify  => Service['nrpe'],
         ensure  => $ensure,
     }
-
 }
-
