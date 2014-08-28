@@ -32,5 +32,5 @@ class nagios::client(
 	}
 	
 	# include custom plugins
-	nagios::client::brplugins
+	include	nagios::client::brplugins
 }
