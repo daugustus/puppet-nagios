@@ -13,6 +13,7 @@ class nagios::params {
   # The easy bunch
   $nagios_service = 'nagios'
   $nagios_user    = 'nagios'
+	$nagios_confd		=	'/etc/nagios/conf.d'
   # nrpe
   $nrpe_service   = 'nrpe'
   $nrpe_cfg_file  = '/etc/nagios/nrpe.cfg'

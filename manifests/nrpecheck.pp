@@ -7,7 +7,7 @@ define nagios::nrpecheck(
 	$templates			=	undef,
 	$service_group	=	undef,
 	$host						=	"${::fqdn}",
-	$nagios_conf_d	=	$nagios::params::nrpe_cfg_dir,
+	$nagios_conf_d	=	$nagios::params::nagios_confd,
 ){
 
 	nagios::client::nrpe_file{"${name}":
