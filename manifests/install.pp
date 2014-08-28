@@ -7,21 +7,21 @@ class nagios::install {
 			 ]:
   	ensure  => present,
   }
-	File{"/etc/nagios/conf.d":
+	file{"/etc/nagios/conf.d":
 		ensure	=>	directory,
 		owner		=>	'nagios',
 		group		=>	'apache',	
 		mode		=>	'775',
 		require	=>	Package["nagios"],
 	}
-	File{"/etc/nagios/private":
+	file{"/etc/nagios/private":
 		ensure	=>	directory,
 		owner		=>	'nagios',
 		group		=>	'apache',	
 		mode		=>	'770',
 		require	=>	Package["nagios"],
 	}
-	File{"/etc/nagios/objects":
+	file{"/etc/nagios/objects":
 		ensure	=>	directory,
 		owner		=>	'nagios',
 		group		=>	'apache',	
