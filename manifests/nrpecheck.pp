@@ -4,19 +4,26 @@ define nagios::nrpecheck(
 	$command				=	$name,
 	$description		= "needs description",
 	$args						=	false,
+	$nrpe_template	=	'check_generic',
 	$templates			=	undef,
 	$service_group	=	undef,
 	$host						=	"${::fqdn}",
 	$nagios_conf_d	=	$nagios::params::nagios_confd,
+	$sudo						=	false,
+	$sudo_user			=	undef,
+	
 ){
 
-	nagios::client::nrpe_file{"${name}":
-  	sudo		=>	true,
-		args		=>	"${args}",
-  	ensure	=>	$ensure,
-	}
+	file { "${nagios::params::nrpe_cfg_dir}/nrpe-${title}.cfg":
+  	owner   => 'root',
+    group   => $nagios::client::nrpe_group,
+    mode    => '0640',
+    content => template("nagios/nrpe-${nrpe_template}.cfg.erb"),
+    notify  => Service['nrpe'],
+    ensure  => $ensure,
+  }	
 	@@nagios_service{"${host}-${name}":
-		ensure  =>  present,
+		ensure  =>  $ensure,
 		host_name =>  "${host}",
 		use     =>  "${templates}",
     service_description => "${description}",
