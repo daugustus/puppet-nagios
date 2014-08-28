@@ -51,7 +51,8 @@ used=` free -m | grep "buffers/cache" | awk '{print $3}'`
 
 total=$(($free+$used))
 
-result=$(echo "$used / $total * 100" |bc -l|cut -c -2)
+#result=$(echo "$used / $total * 100" |bc -l|cut -c -2)
+result=$(echo "$used / $total * 100" |bc -l|cut -f1 -d .)
 
 if [ "$result" -lt "$warn_level" ]; then
     echo "Memory OK. $result% used."
