@@ -30,4 +30,7 @@ class nagios::client(
 		mode	=>	"640",
 		notify	=>	Service["nrpe"],
 	}
+	
+	# include custom plugins
+	nagios::client::brplugins
 }
