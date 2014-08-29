@@ -6,7 +6,8 @@ define nagios::nrpecheck(
 	$args						=	false,
 	$nrpe_template	=	'check_generic',
 	$templates			=	undef,
-	$service_group	=	undef,
+	$contact_groups	=	undef,
+	$service_groups	=	undef,
 	$host						=	"${::fqdn}",
 	$nagios_conf_d	=	$nagios::params::nagios_confd,
 	$sudo						=	false,
@@ -26,6 +27,8 @@ define nagios::nrpecheck(
 		ensure  =>  $ensure,
 		host_name =>  "${host}",
 		use     =>  "${templates}",
+		contact_groups	=>	"${contact_groups}",
+		service_groups	=>	"${service_groups}",
     service_description => "${description}",
 		check_command =>  "check_nrpe!${::ipaddress}!${plugin}!10",
 		target  =>  "${nagios_conf_d}/service_nrpe_${name}_${host}.cfg"
