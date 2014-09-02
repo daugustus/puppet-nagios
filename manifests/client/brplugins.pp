@@ -11,5 +11,11 @@ class nagios::client::brplugins{
 		mode		=>	"775",
 		require	=>	Package["bc"],
 	}
-
+	file{"/usr/lib64/nagios/plugins/eventhandlers/servicerestart.sh":
+		ensure	=>	"present",
+		source	=>	"puppet:///modules/nagios/servicerestart.sh",
+		owner		=>	"root",
+		group		=>	"root",
+		mode		=>	"775",
+	}
 }

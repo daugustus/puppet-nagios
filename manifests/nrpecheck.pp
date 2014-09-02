@@ -1,36 +1,39 @@
 define nagios::nrpecheck(
-	$ensure					=	undef,
-	$plugin					=	$name,
+	$args						=	undef,
 	$command				=	$name,
-	$description		= "needs description",
-	$args						=	false,
-	$nrpe_template	=	'check_generic',
-	$templates			=	undef,
 	$contact_groups	=	undef,
-	$service_groups	=	undef,
+	$description		= "needs description",
+	$ensure					=	undef,
 	$host						=	"${::fqdn}",
 	$nagios_conf_d	=	$nagios::params::nagios_confd,
+	$nrpe_template	=	'check_generic',
+	$plugin					=	$name,
+	$service_check	=	true,
+	$service_groups	=	undef,
 	$sudo						=	false,
 	$sudo_user			=	undef,
+	$templates			=	undef,
 	
 ){
 
 	file { "${nagios::params::nrpe_cfg_dir}/nrpe-${title}.cfg":
-  	owner   => 'root',
+    content => template("nagios/nrpe-${nrpe_template}.cfg.erb"),
+    ensure  => $ensure,
     group   => $nagios::client::nrpe_group,
     mode    => '0640',
-    content => template("nagios/nrpe-${nrpe_template}.cfg.erb"),
     notify  => Service['nrpe'],
-    ensure  => $ensure,
+  	owner   => 'root',
   }	
-	@@nagios_service{"${host}-${name}":
-		ensure  =>  $ensure,
-		host_name =>  "${host}",
-		use     =>  "${templates}",
-		contact_groups	=>	"${contact_groups}",
-		servicegroups	=>	"${service_groups}",
-    service_description => "${description}",
-		check_command =>  "check_nrpe!${::ipaddress}!${plugin}!10",
-		target  =>  "${nagios_conf_d}/service_nrpe_${name}_${host}.cfg"
+	if $service_check == 'true' {
+		@@nagios_service{"${host}-${name}":
+			contact_groups	=>	"${contact_groups}",
+			check_command =>  "check_nrpe!${::ipaddress}!${plugin}!10",
+			ensure  =>  $ensure,
+			host_name =>  "${host}",
+    	service_description => "${description}",
+			servicegroups	=>	"${service_groups}",
+			target  =>  "${nagios_conf_d}/service_nrpe_${name}_${host}.cfg"
+			use     =>  "${templates}",
+		}
 	}
 }
