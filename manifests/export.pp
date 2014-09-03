@@ -5,6 +5,6 @@ class nagios::export{
     use                 => 'host-alarm-l9,host-check-l9',
     check_command       => 'check-host-alive',
     hostgroups          => 'all-servers',
-    target              => "/etc/nagios/conf.d/${::fqdn}.cfg",
+    target              => "/etc/nagios/conf.d/host_${::fqdn}.cfg",
   }
 }
