@@ -3,6 +3,7 @@ define nagios::tcpcheck(
 	$contact_groups	= "undef",
 	$description	=	"",
 	$ensure	=	"present",
+	$nagios_conf_d = ${nagios::params::nagios_conf_d}
 	$plugin	= "undef",
 	$templates = "",
 	$service_groups = "",
