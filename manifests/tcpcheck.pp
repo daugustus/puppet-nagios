@@ -11,7 +11,7 @@ define nagios::tcpcheck(
 
     @@nagios_service{"${name}":
       contact_groups  =>  "${contact_groups}",
-      check_command =>  "check_tcp!${::ipaddress}!${args}",
+      check_command =>  "check_tcp!${args}",
       ensure  =>  $ensure,
       host_name =>  "${host}",
       service_description => "${description}",
