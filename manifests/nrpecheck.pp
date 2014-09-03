@@ -8,7 +8,7 @@ define nagios::nrpecheck(
 	$nagios_conf_d	=	$nagios::params::nagios_confd,
 	$nrpe_template	=	'check_generic',
 	$plugin					=	$name,
-	$service_check	=	true,
+	$service_check	=	"yes",
 	$service_groups	=	undef,
 	$sudo						=	false,
 	$sudo_user			=	undef,
@@ -24,7 +24,7 @@ define nagios::nrpecheck(
     notify  => Service['nrpe'],
   	owner   => 'root',
   }	
-	if $service_check == 'true' {
+	if $service_check == "yes" {
 		@@nagios_service{"${host}-${name}":
 			contact_groups	=>	"${contact_groups}",
 			check_command =>  "check_nrpe!${::ipaddress}!${plugin}!10",
