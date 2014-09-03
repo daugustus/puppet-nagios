@@ -30,6 +30,10 @@ class nagios::client(
 		mode	=>	"640",
 		notify	=>	Service["nrpe"],
 	}
+	file{"/usr/lib64/nagios/plugins/eventhandlers":
+		ensure	=>	directory,
+		require =>	Package['nagios-plugins-all'],
+	}
 	
 	# include custom plugins
 	include	nagios::client::brplugins
