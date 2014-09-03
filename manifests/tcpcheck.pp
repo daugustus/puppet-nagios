@@ -1,10 +1,11 @@
 define nagios::tcpcheck(
-	$args	=	'',
-	$contact_groups	= 'contact_groups',
-	$ensure	=	'present',
-	$plugin	= 'undef',
-	$templates = '',
-	$service_groups = '',
+	$args	=	"",
+	$contact_groups	= "undef",
+	$description	=	"",
+	$ensure	=	"present",
+	$plugin	= "undef",
+	$templates = "",
+	$service_groups = "",
 ){
     @@nagios_service{"${name}":
       contact_groups  =>  "${contact_groups}",
