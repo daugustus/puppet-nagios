@@ -16,7 +16,7 @@ define nagios::tcpcheck(
       host_name =>  "${host}",
       service_description => "${description}",
       servicegroups =>  "${service_groups}",
-      target  =>  "/etc/nagios/conf.d/service_${host}.cfg",
+      target  =>  "/etc/nagios/conf.d/service_${name}.cfg",
       use     =>  "${templates}",
     }
 }
