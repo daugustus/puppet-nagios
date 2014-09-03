@@ -1,6 +1,6 @@
 define nagios::tcpcheck(
 	$args	=	"",
-	$contact_groups	= "undef",
+	$contact_groups	= "",
 	$description	=	"",
 	$ensure	=	"present",
 	$host	= $::fqdn,
