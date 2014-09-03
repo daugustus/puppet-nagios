@@ -32,7 +32,7 @@ define nagios::nrpecheck(
 			host_name =>  "${host}",
     	service_description => "${description}",
 			servicegroups	=>	"${service_groups}",
-			target  =>  "${nagios_conf_d}/service_nrpe_${name}_${host}.cfg"
+			target  =>  "${nagios_conf_d}/service_nrpe_${name}_${host}.cfg",
 			use     =>  "${templates}",
 		}
 	}
