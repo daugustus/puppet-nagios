@@ -1,7 +1,7 @@
 define nagios::nrpecommand(
 	$args						=	undef,
 	$command				=	$name,
-	$description		=>	undef,
+	$description		=	undef,
 	$ensure					=	undef,
 	$host						=	"${::fqdn}",
 	$nagios_conf_d	=	$nagios::params::nagios_confd,
