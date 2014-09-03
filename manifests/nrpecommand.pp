@@ -5,7 +5,7 @@ define nagios::nrpecommand(
 	$ensure					=	undef,
 	$host						=	"${::fqdn}",
 	$nagios_conf_d	=	$nagios::params::nagios_confd,
-	$nrpe_template	=	'check_command',
+	$nrpe_template	=	'command_generic',
 	$plugin					=	$name,
 	$sudo						=	false,
 	$sudo_user			=	undef,
