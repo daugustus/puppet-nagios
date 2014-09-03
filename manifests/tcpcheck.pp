@@ -8,9 +8,6 @@ define nagios::tcpcheck(
 	$service_groups = "",
 ){
 
-	# ensure we get the params for setup	
-	include nagios::params
-
     @@nagios_service{"${name}":
       contact_groups  =>  "${contact_groups}",
       check_command =>  "check_tcp!${::ipaddress}!10",
@@ -18,7 +15,7 @@ define nagios::tcpcheck(
       host_name =>  "${host}",
       service_description => "${description}",
       servicegroups =>  "${service_groups}",
-      target  =>  "${nagios::params::nagios_conf_d}/service_${name}_${host}.cfg",
+      target  =>  "/etc/nagios/conf.d/service_${name}_${host}.cfg",
       use     =>  "${templates}",
     }
 }
