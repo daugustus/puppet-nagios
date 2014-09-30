@@ -9,7 +9,7 @@ case "$1" in
 		;;
 	CRITICAL)	
 
-		/usr/lib64/nagios/plugins/check_nrpe -H "$2" -p 5666 -c runcmd -a "$3"
+		/usr/lib64/nagios/plugins/check_nrpe -H "$2" -p 5666 -c restartservice -a "$3"
 	;;
 esac
 		

@@ -3,7 +3,6 @@ class nagios::export(
 	$hostgroups = hiera('nagios_hostgroups'), 
   $templates = hiera('nagios_host_templates')
 ){
-
 	@@nagios_host { "${::fqdn}" :
     address       => $ip_address,
     check_command => 'check-host-alive',
