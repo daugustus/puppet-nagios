@@ -4,14 +4,14 @@ define nagios::tcpcheck(
 	$description	=	"",
 	$ensure	=	"present",
 	$host	= $::fqdn,
-	$plugin	= "undef",
+	$plugin	= "check_tcp",
 	$templates = "",
 	$service_groups = "",
 ){
 
     @@nagios_service{"${name}":
       contact_groups  =>  "${contact_groups}",
-      check_command =>  "check_tcp!${args}",
+      check_command =>  "${plugin}!${args}",
       ensure  =>  $ensure,
       host_name =>  "${host}",
       service_description => "${description}",

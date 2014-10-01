@@ -12,22 +12,21 @@ define nagios::nrpecheck(
 	$service_groups	=	undef,
 	$sudo						=	false,
 	$sudo_user			=	undef,
-	$templates			=	undef,
-	
+	$templates			= undef,	
 ){
 
 	file { "${nagios::params::nrpe_cfg_dir}/nrpe-${title}.cfg":
-    content => template("nagios/nrpe-${nrpe_template}.cfg.erb"),
-    ensure  => $ensure,
-    group   => $nagios::client::nrpe_group,
-    mode    => '0640',
-    notify  => Service['nrpe'],
-  	owner   => 'root',
+    content   => template("nagios/nrpe-${nrpe_template}.cfg.erb"),
+    ensure    => $ensure,
+    group     => $nagios::client::nrpe_group,
+    mode      => '0640',
+    notify    => Service['nrpe'],
+  	owner     => 'root',
   }	
 	if $service_check == "yes" {
 		@@nagios_service{"${host}-${name}":
 			contact_groups	=>	"${contact_groups}",
-			check_command =>  "check_nrpe!${::ipaddress}!${plugin}!10",
+			check_command =>  "check_nrpe!${::ipaddress}!${command}!10",
 			ensure  =>  $ensure,
 			host_name =>  "${host}",
     	service_description => "${description}",
