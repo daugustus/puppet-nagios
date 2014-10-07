@@ -10,7 +10,7 @@ define nagios::tcpcheck(
 ){
 
     @@nagios_service{"${name}":
-      contact_groups  =>  "${contact_groups}",
+#      contact_groups  =>  "${contact_groups}",
       check_command =>  "${plugin}!${args}",
       ensure  =>  $ensure,
       host_name =>  "${host}",

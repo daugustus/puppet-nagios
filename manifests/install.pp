@@ -3,7 +3,7 @@ class nagios::install {
 			'nagios', 
 			'nagios-plugins',
 			'nagios-plugins-nrpe',
-			'nsca'
+			'nsca',
 			 ]:
   	ensure  => present,
   }
