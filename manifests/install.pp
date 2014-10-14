@@ -36,4 +36,6 @@ class nagios::install {
     mode    =>  "775",
 		require	=>	Package["nagios-plugins-all"]
   }
+
+  include nagios::plugins
 }

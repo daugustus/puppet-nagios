@@ -1,0 +1,128 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "json"
+require "optparse"
+require "pp"
+require "net/http"
+require "uri"
+
+
+
+def nagios_result(check_result, infotext=nil)
+  case check_result
+    when 0
+      puts "OK - #{infotext}"
+      exit 0
+    when 1
+      puts "WARNING - #{infotext}"
+      exit 1
+    when 2
+      puts "CRITICAL - #{infotext}"
+      exit 2
+    else
+      puts "UNKNOWN - #{infotext}"
+      exit 3
+    end
+end
+
+def valid_result(instance_name)
+  case instance_name
+    when "admin"
+      # puts "admin needs one"
+      return 1
+    when "live"
+      #puts "live needs two"
+      return 2
+    when "preview"
+      # puts "preview needs two"
+      return 1
+    when "bogus"
+      # puts "this is for testing this plugin"
+      return 1
+    else
+      #puts "oops- we dont know a valid number for this instance- check your syntax"
+    return 0
+  end
+end
+
+def check4server(this_json,instance_type,ip_address)
+  this_json.each do |segment|
+    if segment["instanceName"].downcase == instance_type.downcase
+      # determine if we have the ip address we need in this segment
+      if segment["httpUrl"].include? "#{ip_address}"
+        return "Version: "+ segment["version"]
+      end
+    end
+  end
+  return false
+end
+
+
+# This hash will hold all of the options
+ # parsed from the command-line by
+ # OptionParser.
+ options = {}
+ 
+ optparse = OptionParser.new do|opts|
+   # Set a banner, displayed at the top
+   # of the help screen.
+   opts.banner = "Usage: check_json.rb -u status_url -e endpoint"
+ 
+   # Define the options, and what they do
+   options[:statusurl] = ""
+   opts.on( '-u','--url STATUSURL' 'Status URL' ) do|this_status_url| 
+     options[:statusurl] = this_status_url
+   end
+   # Define the options, and what they do
+   options[:endpoint] = ""
+   opts.on( '-e','--endpoint (admin|live|preview)' 'Endpoint' ) do|this_endpoint| 
+     options[:endpoint] = this_endpoint
+   end
+
+   # Define the options, and what they do
+   options[:ipaddress] = ""
+   opts.on( '-i','--ipaddress 127.0.0.1' 'Ip Address' ) do|this_ipaddress| 
+     options[:ipaddress] = this_ipaddress
+   end
+ 
+   # This displays the help screen, all programs are
+   # assumed to have this option.
+   opts.on( '-h', '--help', 'Display this screen' ) do
+     puts opts
+     exit
+   end
+ end
+
+optparse.parse!
+
+# get the response
+uri = URI.parse( options[:statusurl] )
+http = Net::HTTP.new(uri.host, uri.port)
+request = Net::HTTP::Get.new(uri.request_uri)
+response = http.request(request)
+
+# valid response
+if response.code == "200"
+  result = JSON.parse(response.body)
+  # result is an Array
+else
+  return nagios_result(3)
+  exit
+end
+
+# and the answer is?
+check_result = check4server(result,options[:endpoint].downcase, options[:ipaddress]) 
+
+
+if check_result
+  return nagios_result(0, check_result)
+  exit
+else
+  return nagios_result(2)
+  exit
+end
+
+# ensure we have a valid response
+return nagios_result(3)
+exit
